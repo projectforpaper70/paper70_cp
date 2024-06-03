@@ -311,16 +311,15 @@ julia MIP_robustness_verification.jl 2 FASHIONMNIST F16Fashion24 1 6000 0
 This is the result obtained from running under the configuration of our own paper Sect 5.1 Benchmark environment. If interested, you can verify it yourself.
 
 
-| dataset                 | model         | $\epsilon$ | $n$   | FMIPVerify $\mathrm{TN}$ | FMIPVerify UK | MIPVerify $\mathrm{TN}+\mathrm{FN}$ | MIPVerify $\mathrm{TP}$ | MIPVerify FP |
-|-------------------------|---------------|------------|-------|--------------------------|---------------|--------------------------------------|--------------------------|--------------|
-| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0          | 5000  | 4975                     | 25            | 5000                                 | 0                        | 0            |
-| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0          | 5000  | 4987                     | 13            | 4998                                 | 0                        | 2            |
-| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0.05       | 5000  | 367                      | 4633          | 415                                  | 2880                     | 1705         |
-| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0.05       | 5000  | 1516                     | 3484          | 1719                                 | 1736                     | 1545         |
-| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0.1        | 5000  | 2                        | 4998          | 3                                    | 3926                     | 1071         |
-| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0.1        | 5000  | 73                       | 4927          | 81                                   | 3083                     | 1836         |
-| $\mathrm{FSMNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{c}^{H}$ | 0          | 4267  | 4223                     | 44            |                                      |                          |              |
-
+| Dataset                     | Model          | $\epsilon$ | $n$   | FMIPVerify TN | FMIPVerify UK | MIPVerify TN+FN | MIPVerify TP | MIPVerify FP |
+|-----------------------------|----------------|------------|-------|---------------|---------------|------------------|--------------|--------------|
+| MNIST<sub>7x7</sub><sup>H</sup>  | MLP<sub>a</sub><sup>H</sup> | 0          | 5000  | 4975          | 25            | 5000            | 0            | 0            |
+| MNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>b</sub><sup>H</sup> | 0          | 5000  | 4987          | 13            | 4998            | 0            | 2            |
+| MNIST<sub>7x7</sub><sup>H</sup>  | MLP<sub>a</sub><sup>H</sup> | 0.05       | 5000  | 367           | 4633          | 415             | 2880         | 1705         |
+| MNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>b</sub><sup>H</sup> | 0.05       | 5000  | 1516          | 3484          | 1719            | 1736         | 1545         |
+| MNIST<sub>7x7</sub><sup>H</sup>  | MLP<sub>a</sub><sup>H</sup> | 0.1        | 5000  | 2             | 4998          | 3               | 3926         | 1071         |
+| MNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>b</sub><sup>H</sup> | 0.1        | 5000  | 73            | 4927          | 81              | 3083         | 1836         |
+| FSMNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>c</sub><sup>H</sup> | 0          | 4267  | 4223          | 44            | 4256            | 0            | 11           |
 
 
 
