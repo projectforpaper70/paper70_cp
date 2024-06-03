@@ -1,96 +1,339 @@
-# FMIPVerify.jl
+# Documentation for Project Artifacts
 
-_A package for evaluating the robustness of floating-point neural networks using Mixed Integer Programming (MIP). This project is extended from MIPVerify(https://github.com/vtjeng/MIPVerify.jl). See the [companion paper]() for more details._
+## Project Datasets
 
-## Getting Started
+### Dataset 1: $M_{7 \times 7}^H$
+- **Description**: This dataset includes compressed 7x7 MNIST inputs, covering both training and test sets.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/resized_images`
 
-Due to the involvement of multiple packages, installation may be time-consuming.
+### Dataset 2: $M_{28 \times 28}^H$
+- **Description**: Consisting of the standard 28x28 MNIST dataset, including training and test sets.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/datasets/mnist`
 
-### Prerequisites
+### Dataset 3: $FM_{28 \times 28}^H$ (newly added)
+- **Description**: Fashion MNIST dataset, including training and test sets.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/datasets/fashionmnist`
 
-To use our package, you will need:
+## Models
 
-1. The Julia programming language.
-2. An optimizer supported by SageMath, which integrates the Rational number solver [PPL](https://doc.sagemath.org/html/en/reference/discrete_geometry/sage/geometry/polyhedron/backend_ppl.html) and the high-precision floating-point solver [Gurobi](https://www.gurobi.com/whats-new-gurobi-11-0/?utm_source=google&utm_medium=cpc&utm_campaign=2024+amer+googleads+awareness&campaignid=193283256&adgroupid=51266130904&creative=690777197021&keyword=gurobi&matchtype=b&_bn=g&gad_source=1&gclid=CjwKCAjwx-CyBhAqEiwAeOcTdUR58CeFO85-YVfhv0crTa-iGxQCszYv1Zj9_rPVBI2n19_FywaUdhoCzw8QAvD_BwE).
-3. The Julia package for working with the optimizer.
+### Model 1: $MLP_a^H$
+- **Description**: A feedforward neural network [49, 10, 10, 10] trained on $M_{7 \times 7}^H$.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/weights/mnist/resized_mnist77input_mnist_dnn_fp16.mat`
+- **Training Code**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/nnet_model/mnist/train_floating16net_downsample_77.py`
 
-### Installation on Ubuntu 20.04
+### Model 2: $MLP_b^H$
+- **Description**: A feedforward neural network [784, 24, 24, 10] trained on $M_{28 \times 28}^H$.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/weights/mnist/mnist_dnn_fp16.mat`
+- **Training Code**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/nnet_model/mnist/train_floating16net.py`
 
-Follow these steps to install FMIPVerify on Ubuntu 20.04:
+### Model 3: $MLP_c^H$ (newly added)
+- **Description**: A feedforward neural network [784, 24, 24, 10] trained on $FM_{28 \times 28}^H$.
+- **Location**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/weights/mnist/fashion_mnist_model.mat`
+- **Training Code**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/deps/weights/mnist/fashmnist/fashion_mnist_fp16_train.py`
 
-1. **Download the FMIPVerify package**: Clone or download the package to your local environment.
+## Source Code Implementation
+All source code implementations related to FMPVerify are located in the `Src` folder:
+`/home/aritifact/aritifact_for_cp24/FloatMIPVerify/src`
 
-2. **Install Julia 1.6.7**: Download and install Julia from [the official site](https://julialang.org/downloads/).
+## Implementation Details
+All code implementations related to the paper are located in:
+`/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments`.
 
-3. **Install Gurobi**: Download and install the most recent version of Gurobi from [Gurobi's official site](http://www.gurobi.com/downloads/gurobi-optimizer). A license is required to use Gurobi; free academic licenses are available [here](https://user.gurobi.com/download/licenses/free-academic).
-
-4. **Install SageMath 10.2**: Follow the [official SageMath installation guide](https://doc.sagemath.org/html/en/installation/index.html) to install SageMath.
-
-5. **Install FMIPVerify**:
-    - Start the Julia REPL in the terminal:
-      ```sh
-      bash> julia
-      ```
-    - Enter the Pkg mode by pressing `]`:
-      ```julia
-      julia> ]
-      ```
-    - Use the `dev` command to install FMIPVerify from your local path:
-      ```julia
-      (pkg) dev path/to/FMIPVerify
-      ```
-
-6. **Install PyCall.jl**:
-    - PyCall.jl is a Julia library for calling Python functions from Julia. We use this library to call SageMath, which is implemented based on Python.
-    - You need to build PyCall.jl with the SageMath Python environment. Set the `PYTHON` environment variable to the path of the SageMath Python executable and build PyCall.jl:
-      ```julia
-      ENV["PYTHON"] = "... path to the SageMath Python executable ..."
-      Pkg.build("PyCall")
-      ```
-
-### Project Structure
-
-### Explanation of the Project Structure
-
-
-1. **`Project.toml`**: Contains metadata about the project, including dependencies.
-2. **`src/`**: Contains the source code of the package.
-3. **`test/`**: Contains test scripts to ensure the package works as expected.
-   - **`runtests.jl`**: The main script to run all tests.
-4. **`experiments/`**: Contains all experiment code and results. You can check the experiment settings and experiments related to our work.
-   - **`experiment2/robustness_check/float16_mnist_robust_check_verification_with_gurobi_itvbound77_epsilon0.ipynb`**: The name of this Notebook code tells us that it is used to verify whether FMIPVerify verifies the robustness of the 7 * 7 input image on the network when the disturbance is 0.
-5. **`data/`**: Contains the MNIST dataset.
-   - **`t10k-images-idx3-ubyte`**: The MNIST data file.
-6. **`resized_images/`**: Contains the resized MNIST dataset.
-   - **`resized_mnist_images77_test.bin`**: The resized 7*7 MNIST test data file.
-7. **`deps/`**: Contains the training code and datasets for experiments.
-   - **`train_floating16net_downsample_77.py`**: An example script for training the model.
-
-
-
-### Overview of FMIPVerify Implementation
-FMIPVerify translates your query on the robustness of a neural network for some input into an sound constraint MILP problem, which can then be solved by PPL for any Arbitrary precision floating-point FFNN, for low precision floating-point FFNN Gurobi solver can also maintain the soundness of validation results empirically compared to general real-number verification tools.
-
-
-### Experiment setting and result
-
-### Comparative Experimental Results: FMIPVerify and MIPVerify
-
-| **Dataset**          | **Arch**         | **$\boldsymbol{\epsilon}$** | **n** | **FMIPVerify TN** | **FMIPVerify UK** | **MIPVerify TN+FN** | **MIPVerify TP** | **MIPVerify FP** |
-|----------------------|------------------|----------------------------|-------|-------------------|-------------------|---------------------|------------------|------------------|
-| **M<sup>H</sup>_{7×7}**  | **MLP<sup>H</sup>_a** | 0.0                        | 5000  | 4986              | 14                | 4999                | 0                | 1                |
-| **M<sup>H</sup>_{28×28}** | **MLP<sup>H</sup>_b** | 0.0                        | 5000  | 4991              | 9                 | 4998                | 0                | 2                |
-| **M<sup>H</sup>_{7×7}**  | **MLP<sup>H</sup>_a** | 0.05                       | 5000  | 374               | 4626              | 415                 | 2888             | 1697             |
-| **M<sup>H</sup>_{28×28}** | **MLP<sup>H</sup>_b** | 0.05                       | 5000  | 1634              | 3366              | 1719                | 1736             | 1545             |
-| **M<sup>H</sup>_{7×7}**  | **MLP<sup>H</sup>_a** | 0.1                        | 5000  | 3                 | 4997              | 3                   | 3925             | 1072             |
-| **M<sup>H</sup>_{28×28}** | **MLP<sup>H</sup>_b** | 0.1                        | 5000  | 75                | 4925              | 81                  | 3083             | 1836             |
-
-
-![Alt text](./experiments/experiments_summary/round_error_adv.png)
+To replicate our project implementation, follow the steps outlined below. All parameters and configuration files are set correctly. However, if you wish to use Gurobi as the solver or compare with MIPVerify implementation (also based on Gurobi), you need to apply for a Gurobi academic account [here](https://www.gurobi.com/academia/academic-program-and-licenses/) and reactivate Gurobi.
 
 
 
 
+
+
+
+# Experiment 1: Analyzing the Soundness of Interval Abstract
+
+## 1. Experimental Code
+- **Bound precision for MLP_a**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float16_interval_effectness.ipynb`
+- **Bound precision for MLP_b**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float32_interval_effectness.ipynb`
+
+## 2. Code Explanation
+In these Jupyter notebooks, we demonstrate the implementation of pure interval propagation. The interval arithmetic methods used are consistent with Equation (16) in our paper.
+
+## 3. Execution
+To run the notebooks, use the following VSCode command:
+
+### Bound precision for MLP_a:
+```sh
+code /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float16_interval_effectness.ipynb
+```
+
+Click "Run" (our original run results have not been cleared, so you can observe that they are consistent with the implementation in the paper).
+
+
+### Bound precision for MLP_b:
+```sh
+code /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float32_interval_effectness.ipynb
+```
+
+# Experiment 2: FMIPVerify Vs MIPVerify Robustness Verification Experiment
+
+All files related to Experiment 2 are located in: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2`. In this folder, we offer two modes of execution: command-line and VS Code notebook. Each experiment has a dedicated file in the VS Code notebook format for running our experiments. The file names are self-explanatory, requiring minimal explanation. We primarily focus on elucidating the command-line execution method and parameter settings.
+
+## 1. FMIPVerify Robustness Verification Experiment
+
+### (1) Experimental Code
+Path: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check/FMIP_robustness_verification.jl`
+
+### (2) Code Explanation
+In this code, we accept parameters to run the experiment, including the dataset, model, perturbation radius, etc. The code returns verification results, and FMIPVerify prints the training results for each sample during the verification process, including `verify_true` and `verify_unknown`. The results for both verification outcomes are recorded in a file.
+
+### (3) Parameter Explanation
+1. `data_type` (Int) - e.g., 1 or 2
+2. `data_name` (String) - should be "MNIST", "mnist49", or "FASHIONMNIST"
+3. `network_name` (String) - should be "F16MNISTinput_77", "F16MNIST24", or "F16Fashion24"
+4. `itv_network_name` (String) - should be "F16MNISTinput_77itv", "F16MNIST24itv", or "F16Fashion784itv"
+5. `min_data_num` (Int) - [min_data_num, max_data_num] represents the range of the verification dataset, e.g., 0
+6. `max_data_num` (Int) - e.g., 10000
+7. `epsilon` - perturbation radius, e.g., 0, 0.05, 0.1
+8. `solver` (optional, String) - "ppl" or "gurobi"
+
+### (4) Experimental Setup
+We conducted 7 experiments in FMIPVerify, each targeting robustness verification under different datasets and perturbations.
+
+1. **Experiment 1**
+   - **Settings:**
+     - `data_name`: mnist49
+     - `network_name`: F16MNISTinput_77
+     - `numrange`: 1-5622
+     - `epsilon`: 0.0
+     - `solver`: ppl
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.0 PPL
+     ```
+
+2. **Experiment 2**
+   - **Settings:**
+     - `data_name`: mnist49
+     - `network_name`: F16MNISTinput_77
+     - `numrange`: 1-5622
+     - `epsilon`: 0.05
+     - `solver`: ppl
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.05 PPL
+     ```
+
+3. **Experiment 3**
+   - **Settings:**
+     - `data_name`: mnist49
+     - `network_name`: F16MNISTinput_77
+     - `numrange`: 1-5622
+     - `epsilon`: 0.1
+     - `solver`: ppl
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.1 PPL
+     ```
+
+4. **Experiment 4**
+   - **Settings:**
+     - `data_name`: MNIST
+     - `network_name`: F16MNIST24
+     - `numrange`: 1-5513
+     - `epsilon`: 0.0
+     - `solver`: gurobi
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.0 gurobi
+     ```
+
+5. **Experiment 5**
+   - **Settings:**
+     - `data_name`: MNIST
+     - `network_name`: F16MNIST24
+     - `numrange`: 1-5513
+     - `epsilon`: 0.05
+     - `solver`: gurobi
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.05 gurobi
+     ```
+
+6. **Experiment 6**
+   - **Settings:**
+     - `data_name`: MNIST
+     - `network_name`: F16MNIST24
+     - `numrange`: 1-5513
+     - `epsilon`: 0.1
+     - `solver`: gurobi
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.1 gurobi
+     ```
+
+7. **Experiment 7** (not yet verified for Fashion MNIST)
+   - **Settings:**
+     - `data_name`: FASHIONMNIST 
+     - `network_name`: F16Fashion24
+     - `numrange`: 1-6000
+     - `epsilon`: 0.1
+     - `solver`: gurobi
+   - **Command:**
+     ```bash
+     cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+     conda activate sage
+     julia FMIP_robustness_verification.jl 2 FASHIONMNIST F16Fashion24 F16Fashion784itv 1 6000 0
+     ```
+
+## MIPVerify Robustness Verification
+
+### (1) Experimental Code
+Path: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check/MIP_robustness_verification.jl`
+
+### (2) Code Explanation
+In this code, we accept parameters to run the experiment, including the dataset, model, perturbation radius, etc. The code returns verification results, and MIPVerify prints the training results for each sample during the verification process, including `verify_true`, `verify_false`, and `verify-unknown`. The results for both verification outcomes are recorded in a file.
+
+### (3) Parameter Explanation
+1. `data_type` (Int) - e.g., 1 or 2
+2. `data_name` (String) - should be "MNIST", "mnist49", or "FASHIONMNIST"
+3. `network_name` (String) - should be "F16MNISTinput_77", "F16MNIST24", or "F16Fashion24"
+4. `min_data_num` (Int) - [min_data_num, max_data_num] represents the range of the verification dataset, e.g., 0
+5. `max_data_num` (Int) - e.g., 10000
+6. `epsilon` - perturbation radius, e.g., 0, 0.05, 0.1
+
+### (4) Experimental Setup
+We conducted 6 control experiments in MIPVerify, each targeting robustness verification under different datasets and perturbations.
+
+#### 1. Experiment 1
+**Parameter Settings:**
+- `data_name`: mnist49
+- `network_name`: F16MNISTinput_77
+- `numrange`: 1-5622
+- `epsilon`: 0.0
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.0
+```
+
+#### 2. Experiment 2
+
+**Parameter Settings:**
+- `data_name`: mnist49
+- `network_name`: F16MNISTinput_77
+- `numrange`: 1-5622
+- `epsilon`: 0.05
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.05
+```
+
+### 3. Experiment 3
+
+**Parameter Settings:**
+- `data_name`: mnist49
+- `network_name`: F16MNISTinput_77
+- `numrange`: 1-5622
+- `epsilon`: 0.1
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.1
+```
+
+### 4. Experiment 4
+
+**Parameter Settings:**
+- `data_name`: MNIST
+- `network_name`: F16MNIST24
+- `numrange`: 1-5513
+- `epsilon`: 0.0
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.0
+
+```
+
+### 5. Experiment 5
+
+**Parameter Settings:**
+- `data_name`: MNIST
+- `network_name`: F16MNIST24
+- `numrange`: 1-5513
+- `epsilon`: 0.05
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.05
+```
+
+### 6. Experiment 6
+
+**Parameter Settings:**
+- `data_name`: MNIST
+- `network_name`: F16MNIST24
+- `numrange`: 1-5513
+- `epsilon`: 0.1
+- `solver`: gurobi
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.1
+```
+
+### 7. Experiment 7 (Not yet verified, MIP performance on Fashion MNIST)
+
+**Parameter Settings:**
+- `data_name`: FASHIONMNIST
+- `network_name`: F16Fashion24
+- `numrange`: 1-6000
+- `epsilon`: 0.1
+- `solver`: gurobi
+
+**Execution Command:**
+```sh
+cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
+conda activate sage
+julia MIP_robustness_verification.jl 2 FASHIONMNIST F16Fashion24 1 6000 0
+```
+
+## Results 
+This is the result obtained from running under the configuration of our own paper Sect 5.1 Benchmark environment. If interested, you can verify it yourself.
+
+
+| dataset                 | model         | $\epsilon$ | $n$   | FMIPVerify $\mathrm{TN}$ | FMIPVerify UK | MIPVerify $\mathrm{TN}+\mathrm{FN}$ | MIPVerify $\mathrm{TP}$ | MIPVerify FP |
+|-------------------------|---------------|------------|-------|--------------------------|---------------|--------------------------------------|--------------------------|--------------|
+| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0          | 5000  | 4975                     | 25            | 5000                                 | 0                        | 0            |
+| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0          | 5000  | 4987                     | 13            | 4998                                 | 0                        | 2            |
+| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0.05       | 5000  | 367                      | 4633          | 415                                  | 2880                     | 1705         |
+| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0.05       | 5000  | 1516                     | 3484          | 1719                                 | 1736                     | 1545         |
+| $\operatorname{MNIST}_{7 \times 7}^{H}$ | $\operatorname{MLP}_{a}^{H}$ | 0.1        | 5000  | 2                        | 4998          | 3                                    | 3926                     | 1071         |
+| $\operatorname{MNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{b}^{H}$ | 0.1        | 5000  | 73                       | 4927          | 81                                   | 3083                     | 1836         |
+| $\mathrm{FSMNIST}_{28 \times 28}^{H}$ | $\mathrm{MLP}_{c}^{H}$ | 0          | 4267  | 4223                     | 44            |                                      |                          |              |
 
 
 
