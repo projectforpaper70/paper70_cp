@@ -49,14 +49,14 @@ To replicate our project implementation, follow the steps outlined below. All pa
 
 # Experiment 1: Analyzing the Soundness of Interval Abstract
 
-## 1. Experimental Code
+## (1) Experimental Code
 - **Bound precision for MLP_a**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float16_interval_effectness.ipynb`
 - **Bound precision for MLP_b**: `/home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float32_interval_effectness.ipynb`
 
-## 2. Code Explanation
+## (2) Code Explanation
 In these Jupyter notebooks, we demonstrate the implementation of pure interval propagation. The interval arithmetic methods used are consistent with Equation (16) in our paper.
 
-## 3. Execution
+## (3) Execution
 To run the notebooks, use the following VSCode command:
 
 ### Bound precision for MLP_a:
@@ -71,6 +71,13 @@ Click "Run" (our original run results have not been cleared, so you can observe 
 ```sh
 code /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float32_interval_effectness.ipynb
 ```
+
+## (4) Result 
+|                | MLP_a^H | MLP_b^H |
+|----------------|---------|---------|
+| Bound Precision| 100%    | 100%    |
+| Correct Precision | 0.0   | 0.0     |
+
 
 # Experiment 2: FMIPVerify Vs MIPVerify Robustness Verification Experiment
 
@@ -97,92 +104,44 @@ In this code, we accept parameters to run the experiment, including the dataset,
 ### (4) Experimental Setup
 We conducted 7 experiments in FMIPVerify, each targeting robustness verification under different datasets and perturbations.
 
-1. **Experiment 1**
-   - **Settings:**
-     - `data_name`: mnist49
-     - `network_name`: F16MNISTinput_77
-     - `numrange`: 1-5622
-     - `epsilon`: 0.0
-     - `solver`: ppl
-   - **Command:**
+1. **Setting 1**
+
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.0 PPL
      ```
 
-2. **Experiment 2**
-   - **Settings:**
-     - `data_name`: mnist49
-     - `network_name`: F16MNISTinput_77
-     - `numrange`: 1-5622
-     - `epsilon`: 0.05
-     - `solver`: ppl
-   - **Command:**
+2. **Setting 2**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.05 PPL
      ```
 
-3. **Experiment 3**
-   - **Settings:**
-     - `data_name`: mnist49
-     - `network_name`: F16MNISTinput_77
-     - `numrange`: 1-5622
-     - `epsilon`: 0.1
-     - `solver`: ppl
-   - **Command:**
+3. **Setting 3**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 F16MNISTinput_77itv 1 5622 0.1 PPL
      ```
 
-4. **Experiment 4**
-   - **Settings:**
-     - `data_name`: MNIST
-     - `network_name`: F16MNIST24
-     - `numrange`: 1-5513
-     - `epsilon`: 0.0
-     - `solver`: gurobi
-   - **Command:**
+4. **Setting 4**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.0 gurobi
      ```
 
-5. **Experiment 5**
-   - **Settings:**
-     - `data_name`: MNIST
-     - `network_name`: F16MNIST24
-     - `numrange`: 1-5513
-     - `epsilon`: 0.05
-     - `solver`: gurobi
-   - **Command:**
+5. **Setting 5**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.05 gurobi
      ```
 
-6. **Experiment 6**
-   - **Settings:**
-     - `data_name`: MNIST
-     - `network_name`: F16MNIST24
-     - `numrange`: 1-5513
-     - `epsilon`: 0.1
-     - `solver`: gurobi
-   - **Command:**
+6. **Setting 6**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 2 MNIST F16MNIST24 F16MNIST24itv 1 5513 0.1 gurobi
      ```
 
-7. **Experiment 7** (not yet verified for Fashion MNIST)
-   - **Settings:**
-     - `data_name`: FASHIONMNIST 
-     - `network_name`: F16Fashion24
-     - `numrange`: 1-6000
-     - `epsilon`: 0.1
-     - `solver`: gurobi
-   - **Command:**
+7. **Setting 7**
      ```bash
      cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
      julia FMIP_robustness_verification.jl 2 FASHIONMNIST F16Fashion24 F16Fashion784itv 1 6000 0
@@ -207,111 +166,55 @@ In this code, we accept parameters to run the experiment, including the dataset,
 ### (4) Experimental Setup
 We conducted 6 control experiments in MIPVerify, each targeting robustness verification under different datasets and perturbations.
 
-#### 1. Experiment 1
-**Parameter Settings:**
-- `data_name`: mnist49
-- `network_name`: F16MNISTinput_77
-- `numrange`: 1-5622
-- `epsilon`: 0.0
-
-**Execution Command:**
+1. **Setting 1**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.0
 ```
 
-#### 2. Experiment 2
+2. **Setting 2**
 
-**Parameter Settings:**
-- `data_name`: mnist49
-- `network_name`: F16MNISTinput_77
-- `numrange`: 1-5622
-- `epsilon`: 0.05
-
-**Execution Command:**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.05
 ```
 
-### 3. Experiment 3
-
-**Parameter Settings:**
-- `data_name`: mnist49
-- `network_name`: F16MNISTinput_77
-- `numrange`: 1-5622
-- `epsilon`: 0.1
-
-**Execution Command:**
+3. **Setting 3**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 1 mnist49 F16MNISTinput_77 1 5622 0.1
 ```
 
-### 4. Experiment 4
-
-**Parameter Settings:**
-- `data_name`: MNIST
-- `network_name`: F16MNIST24
-- `numrange`: 1-5513
-- `epsilon`: 0.0
-
-**Execution Command:**
+4. **Setting 4**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.0
 
 ```
 
-### 5. Experiment 5
-
-**Parameter Settings:**
-- `data_name`: MNIST
-- `network_name`: F16MNIST24
-- `numrange`: 1-5513
-- `epsilon`: 0.05
-
-**Execution Command:**
+5. **Setting 5**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.05
 ```
 
-### 6. Experiment 6
-
-**Parameter Settings:**
-- `data_name`: MNIST
-- `network_name`: F16MNIST24
-- `numrange`: 1-5513
-- `epsilon`: 0.1
-- `solver`: gurobi
-
-**Execution Command:**
+6. **Setting 6**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 2 MNIST F16MNIST24 1 5513 0.1
 ```
 
-### 7. Experiment 7 (Not yet verified, MIP performance on Fashion MNIST)
-
-**Parameter Settings:**
-- `data_name`: FASHIONMNIST
-- `network_name`: F16Fashion24
-- `numrange`: 1-6000
-- `epsilon`: 0.1
-- `solver`: gurobi
-
-**Execution Command:**
+7. **Setting 7**
 ```sh
 cd /home/aritifact/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2/mnist_robustness_check
 julia MIP_robustness_verification.jl 2 FASHIONMNIST F16Fashion24 1 6000 0
 ```
 
-## Results 
-This is the result obtained from running under the configuration of our own paper Sect 5.1 Benchmark environment. If interested, you can verify it yourself.
+## 5. Results 
+This is the result obtained from running under the configuration of our own paper Sect 5.1 Benchmark environment.
 
 
-| Dataset                     | Model          | $\epsilon$ | $n$   | FMIPVerify TN | FMIPVerify UK | MIPVerify TN+FN | MIPVerify TP | MIPVerify FP |
+| Dataset                     | Model          | $\epsilon$ | $n$   | FMIPVerify TN | FMIPVerify UK | MIPVerify TN | MIPVerify TP | MIPVerify FP |
 |-----------------------------|----------------|------------|-------|---------------|---------------|------------------|--------------|--------------|
 | MNIST<sub>7x7</sub><sup>H</sup>  | MLP<sub>a</sub><sup>H</sup> | 0          | 5000  | 4975          | 25            | 5000            | 0            | 0            |
 | MNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>b</sub><sup>H</sup> | 0          | 5000  | 4987          | 13            | 4998            | 0            | 2            |
@@ -322,4 +225,4 @@ This is the result obtained from running under the configuration of our own pape
 | FSMNIST<sub>28x28</sub><sup>H</sup> | MLP<sub>c</sub><sup>H</sup> | 0          | 4267  | 4223          | 44            | 4256            | 0            | 11           |
 
 
-
+Compared to the first two lines, we found that our tool is conservative and sound, while MIPVerify is unsound. Because it discovered a counterexample when the disturbance was 0, and we returned unknown.
