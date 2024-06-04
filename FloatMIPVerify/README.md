@@ -74,7 +74,7 @@ code /home/xxx/aritifact_for_cp24/FloatMIPVerify/experiments/experiment1/float32
 
 # Experiment 2: FMIPVerify Vs MIPVerify Robustness Verification Experiment
 
-All files related to Experiment 2 are located in: `/home/xxx/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2`. In this folder, we offer two modes of execution: command-line and VS Code notebook. Each experiment has a dedicated file in the VS Code notebook format for running our experiments. The file names are self-explanatory, requiring minimal explanation. We primarily focus on elucidating the command-line execution method and parameter settings.
+All files related to Experiment 2 are located in: `/home/xxx/aritifact_for_cp24/FloatMIPVerify/experiments/experiment2`. In this folder, we offer two modes of execution: command-line and VS Code notebook. Each experiment has a dedicated file in the VS Code notebook format for running our experiments.Before you start vscode please activate conda env `conda activate sage` . The file names are self-explanatory, requiring minimal explanation. We primarily focus on elucidating the command-line execution method and parameter settings.
 
 ## 1. FMIPVerify Robustness Verification Experiment
 
@@ -95,7 +95,7 @@ In this code, we accept parameters to run the experiment, including the dataset,
 8. `solver` (optional, String) - "ppl" or "gurobi"
 
 ### (4) Experimental Setup
-We conducted 7 experiments in FMIPVerify, each targeting robustness verification under different datasets and perturbations.
+We conducted 7 experiments in FMIPVerify, each targeting robustness verification under different datasets and perturbations, all commad is run in conda sage envs, so before run all command, firstly run `conda activate sage`.
 
 1. **Experiment 1**
    - **Settings:**
